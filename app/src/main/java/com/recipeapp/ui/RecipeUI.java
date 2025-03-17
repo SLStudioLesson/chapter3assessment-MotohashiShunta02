@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.recipeapp.datahandler.DataHandler;
+import com.recipeapp.model.Ingredient;
 import com.recipeapp.model.Recipe;
 
 public class RecipeUI {
@@ -57,23 +58,25 @@ public class RecipeUI {
     }
 
     private void displayRecipes() {
-        ArrayList<Recipe> dispplay = new ArrayList<>();
-        dispplay = this.dataHandler.readData();
+        ArrayList<Recipe> dispplay = dataHandler.readData();
 
-        if(dispplay == null){
+        if (dispplay == null) {
             System.out.println("No recipes available.");
-        }else{
-            if(dispplay.isEmpty()){
+        } else {
+            if (dispplay.isEmpty()) {
                 System.out.println("No recipes available.");
-            }else{
+            } else {
                 System.out.println("Recipes:");
                 System.out.println("-----------------------------------");
-                for(Recipe dispplays : dispplay){
-                    String[] keyValue = dispplay.toString().split(",", 2);
-                    System.out.println("Recipe Name: " + keyValue[0]);
-                    if(keyValue.length > 1){
-                        System.out.println("Main Ingredients: " + keyValue[1]);
+
+                for (Recipe dispplays : dispplay) {
+                    System.out.println("Recipe Name: " + dispplays.getName());
+                    System.out.println("Main Ingredients: ");
+                    for(Ingredient ingredientsRecipe : dispplays.getIngredients()){
+                        System.out.print(ingredientsRecipe.getName());
+                        System.out.println();
                     }
+
                     System.out.println("-----------------------------------");
                 }
             }

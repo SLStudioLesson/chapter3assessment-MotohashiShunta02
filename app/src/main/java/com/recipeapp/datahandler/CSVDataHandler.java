@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.recipeapp.model.Ingredient;
 import com.recipeapp.model.Recipe;
 
 public class CSVDataHandler implements DataHandler {
@@ -25,12 +26,20 @@ public class CSVDataHandler implements DataHandler {
     public ArrayList<Recipe> readData() {
 
         try(BufferedReader reader = new BufferedReader(new FileReader(filePath))){
-            Recipe line;
+            String line;
             ArrayList<Recipe> recipesTxt = new ArrayList<>();
-            ArrayList<String> recipesTxt2 = new ArrayList<>();
-            while ((line = (Recipe)reader.readLine()) != null) {
-                
-                recipesTxt.add(line);
+            ArrayList<Ingredient> ingredients = new ArrayList<>();
+            while ((line = reader.readLine()) != null) {
+
+                String[] txt = line.split(",");
+                for(int i=1; i<txt.length; i++){
+                    Ingredient ingredient = new Ingredient(txt[i]);
+                    ingredients.add(ingredient);
+                }
+                // Ingredient ingredient = new Ingredient(txt[1]);
+                // ingredients.add(ingredient);
+                Recipe recipe = new Recipe(txt[0], ingredients);
+                recipesTxt.add(recipe);
             }
             
             return recipesTxt;
